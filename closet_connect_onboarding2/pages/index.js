@@ -1,24 +1,32 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-
 export default function Home() {
-
+  const creatorsInputObj = {
+    "keyword": "",
+    "countries": [],
+    "occupations": [
+      2
+    ],
+    "pageNo": 1,
+    "pageSize": 24,
+    "defaultSortBy": 1,
+    "sortby": 2
+  };
   const [creatorList, setCreatorList] = useState([]);
 
   useEffect(() => {
-    axios.get('https://test-connect.api.clo-set.com/api/Social/354/Followers')
+    axios.post('https://test-connect.api.clo-set.com/api/creators', creatorsInputObj)
       .then((response) => {
-        setCreatorList(response.data.users);
-        // console.log("--------- creator(index.js) : ", creatorList)
+        setCreatorList(response.data.creators);
+        // console.log("creatorList(index.js)", creatorList)
       })
       .catch((error) => {
         console.error('Error fetching data:', error);
       });
-  }, [creatorList]);
+  }, []); // creatorList를 의존성 배열에서 제거
 
   return (
     <div className={styles.container}>
@@ -29,28 +37,24 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        {creatorList.map((creator) => (
-          <div className={styles.grid} key={creator.userId}>
-            <a href="https://nextjs.org/docs" className={styles.card}>
-              <h2>{creator.nickName}</h2>
-              <p>Find in-depth information about Next.js features and API.</p>
-            </a>
+        {creatorList.map((dataObj) => (
+          <div className={styles.grid} key={dataObj.userId}>
+            <div className={styles.card}>
+              <h2>{dataObj.creator}</h2>
+              <div className={styles.joblist}>
+                {
+                  dataObj.occupations.filter(occupation => occupation.name && occupation.name.trim() !== '').map((occupation, index) => (
+                    <React.Fragment key={index}>
+                      {index > 0 && ', '}
+                      <span>{occupation.name}</span>
+                    </React.Fragment>
+                  ))
+                }
+              </div>
+            </div>
           </div>
         ))}
       </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
     </div>
   )
 }
