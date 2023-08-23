@@ -1,5 +1,6 @@
 .container {
   padding: 0 2rem;
+  background-color: #1A1A1F;
 }
 
 .main {
@@ -77,12 +78,12 @@
   margin: 1rem;
   padding: 1.5rem;
   text-align: left;
-  color: inherit;
+  color: white;
   text-decoration: none;
-  border: 1px solid #eaeaea;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
   max-width: 300px;
+  background-color: rgb(46, 46, 51);
 }
 
 .card:hover,
