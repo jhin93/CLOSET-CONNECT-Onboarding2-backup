@@ -75,14 +75,17 @@
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
   margin: 1rem;
-  padding: 1.5rem;
+  padding: 40px 40px 40px 60px;
   text-align: left;
   color: white;
   text-decoration: none;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  max-width: 300px;
+  width: 612px;
+  height: 234px;
   background-color: rgb(46, 46, 51);
 }
 
@@ -108,9 +111,23 @@
   display: flex;
 }
 
+.creatorThumb {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-left: -100px;
+  margin-top: -50px;
+}
+
 .logo {
   height: 1em;
   margin-left: 0.5rem;
+}
+
+.introduction {
+  /*width: auto;*/
+  /*height: auto;*/
 }
 
 @media (max-width: 600px) {

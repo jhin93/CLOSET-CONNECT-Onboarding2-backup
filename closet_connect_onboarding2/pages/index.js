@@ -2,31 +2,15 @@ import Head from 'next/head'
 import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { NATIONAL_CODE } from '../constants/nationalCode';
 
-export default function Home() {
-  const creatorsInputObj = {
-    "keyword": "",
-    "countries": [],
-    "occupations": [
-      2
-    ],
-    "pageNo": 1,
-    "pageSize": 24,
-    "defaultSortBy": 1,
-    "sortby": 2
+export default function Home({ creatorList, creatorIntro }) {
+
+
+  const findCountryLabel = (countryCode) => {
+    const country = NATIONAL_CODE.find(item => item.value === countryCode);
+    return country ? country.label : '';
   };
-  const [creatorList, setCreatorList] = useState([]);
-
-  useEffect(() => {
-    axios.post('https://test-connect.api.clo-set.com/api/creators', creatorsInputObj)
-      .then((response) => {
-        setCreatorList(response.data.creators);
-        // console.log("creatorList(index.js)", creatorList)
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-      });
-  }, []); // creatorList를 의존성 배열에서 제거
 
   return (
     <div className={styles.container}>
@@ -51,6 +35,17 @@ export default function Home() {
                   ))
                 }
               </div>
+              <div>
+                <p>{findCountryLabel(dataObj.country)}</p>
+              </div>
+              <div>
+                {dataObj.photo && <img src={dataObj.photo} className={styles.creatorThumb} alt="Creator Thumbnail" />}
+              </div>
+              <div className={styles.introduction}>
+                {dataObj.introduction !== "" && dataObj.introduction.ops.length > 0 && (
+                  <p>{dataObj.introduction.ops[0].insert}</p>
+                )}
+              </div>
             </div>
           </div>
         ))}
@@ -58,3 +53,48 @@ export default function Home() {
     </div>
   )
 }
+
+export async function getServerSideProps(context) {
+  const creatorsInputObj = {
+    "keyword": "",
+    "countries": [],
+    "occupations": [
+      2
+    ],
+    "pageNo": 1,
+    "pageSize": 24,
+    "defaultSortBy": 1,
+    "sortby": 2
+  };
+
+  try {
+    const response = await axios.post('https://test-connect.api.clo-set.com/api/creators', creatorsInputObj);
+    const creatorList = response.data.creators;
+
+    // Creator Introduction
+    let creatorIntro = [];
+    for(let i = 0; i < creatorList.length; i ++){
+      if(creatorList[i].introduction !== "" && creatorList[i].introduction.ops !== [] && creatorList[i].introduction.ops[0]){
+        console.log(i, creatorList[i].introduction.ops[0].insert)
+        creatorIntro.push(creatorList[i].introduction.ops[0].insert)
+      } else {
+        creatorIntro.push("")
+      }
+    }
+
+    return {
+      props: {
+        creatorList: creatorList,
+        creatorIntro: creatorIntro
+      }
+    };
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    return {
+      props: {
+        creatorList: []
+      }
+    };
+  }
+}
+
