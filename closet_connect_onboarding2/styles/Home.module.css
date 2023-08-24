@@ -84,8 +84,7 @@
   text-decoration: none;
   border-radius: 10px;
   transition: color 0.15s ease, border-color 0.15s ease;
-  width: 612px;
-  height: 234px;
+  width: 40rem;
   background-color: rgb(46, 46, 51);
 }
 

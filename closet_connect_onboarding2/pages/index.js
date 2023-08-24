@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { NATIONAL_CODE } from '../constants/nationalCode';
+import { Button } from '@closet-design-system/core-connect';
 
 export default function Home({ creatorList, creatorIntro }) {
 
@@ -45,6 +46,16 @@ export default function Home({ creatorList, creatorIntro }) {
                 {dataObj.introduction !== "" && dataObj.introduction.ops.length > 0 && (
                   <p>{dataObj.introduction.ops[0].insert}</p>
                 )}
+              </div>
+              <div>
+                <Button
+                  shape="fill"
+                  size="sm"
+                  variant="primary"
+                  width="initial"
+                >
+                  FOLLOW
+                </Button>
               </div>
             </div>
           </div>
