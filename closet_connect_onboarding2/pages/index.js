@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { NATIONAL_CODE } from '../constants/nationalCode';
 import { Button } from '@closet-design-system/core-connect';
+import { Carousel } from 'react-responsive-carousel';
 
 export default function Home({ creatorList, creatorIntro }) {
 
+  console.log("creatorList : ", creatorList)
 
   const findCountryLabel = (countryCode) => {
     const country = NATIONAL_CODE.find(item => item.value === countryCode);
@@ -47,7 +49,7 @@ export default function Home({ creatorList, creatorIntro }) {
                   <p>{dataObj.introduction.ops[0].insert}</p>
                 )}
               </div>
-              <div>
+              <div className={styles.userInfo}>
                 <Button
                   shape="fill"
                   size="sm"
@@ -56,7 +58,19 @@ export default function Home({ creatorList, creatorIntro }) {
                 >
                   FOLLOW
                 </Button>
+                <p>{dataObj.viewCount}</p>
+                <p>{dataObj.likeCount}</p>
+                <p>{dataObj.followerCount}</p>
               </div>
+            </div>
+            <div className={styles.carouselWrapper}>
+                <Carousel showArrows={true} showThumbs={false}>
+                  {dataObj.items.map((item, index) => (
+                    <div key={index}>
+                      <img src={item.imagePath} alt={item.name} />
+                    </div>
+                  ))}
+                </Carousel>
             </div>
           </div>
         ))}
@@ -86,7 +100,6 @@ export async function getServerSideProps(context) {
     let creatorIntro = [];
     for(let i = 0; i < creatorList.length; i ++){
       if(creatorList[i].introduction !== "" && creatorList[i].introduction.ops !== [] && creatorList[i].introduction.ops[0]){
-        console.log(i, creatorList[i].introduction.ops[0].insert)
         creatorIntro.push(creatorList[i].introduction.ops[0].insert)
       } else {
         creatorIntro.push("")

@@ -70,7 +70,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-wrap: wrap;
   max-width: 800px;
 }
 
@@ -124,10 +123,71 @@
   margin-left: 0.5rem;
 }
 
-.introduction {
-  /*width: auto;*/
-  /*height: auto;*/
+.userInfo {
+  display: flex;
+  margin-top: 10px;
 }
+
+.userInfo p {
+  font-size: 1rem;
+  margin-left: 20px;
+}
+
+/* styles/Carousel.css */
+
+/* 슬라이드 컨테이너 */
+.carouselWrapper {
+  width: 100%;
+  /*max-width: 600px; !* 적절한 너비 설정 *!*/
+  /*background-color: white;*/
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* 슬라이드 이미지 스타일 */
+.carouselWrapper img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 이전/다음 화살표 스타일 */
+.carousel .control-arrow {
+  font-size: 24px;
+  color: #333;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  padding: 5px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.carousel .control-arrow:hover {
+  background-color: #333;
+  color: white;
+}
+
+/* 슬라이드 인디케이터 스타일 (썸네일 없을 때) */
+.carousel .carousel-status {
+  display: none;
+}
+
+/* 슬라이드 버튼 컨테이너 */
+.carousel .carousel-slider {
+  margin-top: 10px;
+}
+
+/* 슬라이드 버튼 스타일 */
+.carousel .slide {
+  background-color: transparent;
+  outline: none;
+}
+
+/* 슬라이드 버튼 아이콘 스타일 */
+.carousel .slide .legend {
+  display: none;
+}
+
 
 @media (max-width: 600px) {
   .grid {
