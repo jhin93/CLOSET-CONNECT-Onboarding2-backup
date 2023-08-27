@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { NATIONAL_CODE } from '../constants/nationalCode';
 import { Button } from '@closet-design-system/core-connect';
+import Carousel from "react-material-ui-carousel";
 
 export default function Home({ creatorList, creatorIntro }) {
 
@@ -62,8 +63,17 @@ export default function Home({ creatorList, creatorIntro }) {
                 <p>{dataObj.followerCount}</p>
               </div>
             </div>
-            <div className={styles.carouselWrapper}>
-
+            <div className={styles.slider}>
+              <Carousel cycleNavigation={true} navButtonsAlwaysVisible={true}>
+                {dataObj.items.map((content, index) => (
+                  <div key={index}>
+                    <img src={content.imagePath} />
+                    {/*{content.desc.map((description) => (*/}
+                    {/*  <li>{description}</li>*/}
+                    {/*))}*/}
+                  </div>
+                ))}
+              </Carousel>
             </div>
           </div>
         ))}
