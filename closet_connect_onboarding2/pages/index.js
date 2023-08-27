@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { NATIONAL_CODE } from '../constants/nationalCode';
 import { Button } from '@closet-design-system/core-connect';
-import { Carousel } from 'react-responsive-carousel';
 
 export default function Home({ creatorList, creatorIntro }) {
 
@@ -24,7 +23,7 @@ export default function Home({ creatorList, creatorIntro }) {
       </Head>
 
       <main className={styles.main}>
-        {creatorList.map((dataObj) => (
+        {creatorList.map((dataObj, index) => (
           <div className={styles.grid} key={dataObj.userId}>
             <div className={styles.card}>
               <h2>{dataObj.creator}</h2>
@@ -64,13 +63,7 @@ export default function Home({ creatorList, creatorIntro }) {
               </div>
             </div>
             <div className={styles.carouselWrapper}>
-                <Carousel showArrows={true} showThumbs={false}>
-                  {dataObj.items.map((item, index) => (
-                    <div key={index}>
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  ))}
-                </Carousel>
+
             </div>
           </div>
         ))}
@@ -121,4 +114,5 @@ export async function getServerSideProps(context) {
     };
   }
 }
+
 
