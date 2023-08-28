@@ -3,7 +3,7 @@ import styles from '../styles/Home.module.css'
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { NATIONAL_CODE } from '../constants/nationalCode';
-import { Button } from '@closet-design-system/core-connect';
+import { Button, ContactIcon, LikeIcon, ViewIcon } from '@closet-design-system/core-connect';
 import Carousel from "react-material-ui-carousel";
 
 export default function Home({ creatorList, creatorIntro }) {
@@ -24,56 +24,67 @@ export default function Home({ creatorList, creatorIntro }) {
       </Head>
 
       <main className={styles.main}>
-        {creatorList.map((dataObj, index) => (
-          <div className={styles.grid} key={dataObj.userId}>
-            <div className={styles.card}>
-              <h2>{dataObj.creator}</h2>
-              <div className={styles.joblist}>
-                {
-                  dataObj.occupations.filter(occupation => occupation.name && occupation.name.trim() !== '').map((occupation, index) => (
-                    <React.Fragment key={index}>
-                      {index > 0 && ', '}
-                      <span>{occupation.name}</span>
-                    </React.Fragment>
-                  ))
-                }
-              </div>
-              <div>
-                <p>{findCountryLabel(dataObj.country)}</p>
-              </div>
-              <div>
-                {dataObj.photo && <img src={dataObj.photo} className={styles.creatorThumb} alt="Creator Thumbnail" />}
-              </div>
-              <div className={styles.introduction}>
-                {dataObj.introduction !== "" && dataObj.introduction.ops.length > 0 && (
-                  <p>{dataObj.introduction.ops[0].insert}</p>
-                )}
-              </div>
-              <div className={styles.userInfo}>
-                <Button
-                  shape="fill"
-                  size="sm"
-                  variant="primary"
-                  width="initial"
-                >
-                  FOLLOW
-                </Button>
-                <p>{dataObj.viewCount}</p>
-                <p>{dataObj.likeCount}</p>
-                <p>{dataObj.followerCount}</p>
-              </div>
-            </div>
-            <div className={styles.slider}>
-              <Carousel cycleNavigation={true} navButtonsAlwaysVisible={true}>
-                {dataObj.items.map((content, index) => (
-                  <div key={index}>
-                    <img src={content.imagePath} className={styles.carouselImage} />
+        <div>
+          {creatorList.map((dataObj, index) => (
+            <div className={styles.grid} key={dataObj.userId}>
+              <div className={styles.card}>
+                <h2>{dataObj.creator}</h2>
+                <div className={styles.joblist}>
+                  {
+                    dataObj.occupations.filter(occupation => occupation.name && occupation.name.trim() !== '').map((occupation, index) => (
+                      <React.Fragment key={index}>
+                        {index > 0 && ', '}
+                        <span>{occupation.name}</span>
+                      </React.Fragment>
+                    ))
+                  }
+                </div>
+                <div>
+                  <p>{findCountryLabel(dataObj.country)}</p>
+                </div>
+                <div>
+                  {dataObj.photo && <img src={dataObj.photo} className={styles.creatorThumb} alt="Creator Thumbnail" />}
+                </div>
+                <div className={styles.introduction}>
+                  {dataObj.introduction !== "" && dataObj.introduction.ops.length > 0 && (
+                    <p>{dataObj.introduction.ops[0].insert}</p>
+                  )}
+                </div>
+                <div className={styles.userSection}>
+                  <Button
+                    shape="fill"
+                    size="sm"
+                    variant="primary"
+                    width="initial"
+                  >
+                    <p>FOLLOW</p>
+                  </Button>
+                  <div className={styles.userInfo}>
+                    <ViewIcon></ViewIcon>
+                    <p>{dataObj.viewCount}</p>
                   </div>
-                ))}
-              </Carousel>
+                  <div className={styles.userInfo}>
+                    <LikeIcon></LikeIcon>
+                    <p>{dataObj.likeCount}</p>
+                  </div>
+                  <div className={styles.userInfo}>
+                    <ContactIcon></ContactIcon>
+                    <p>{dataObj.followerCount}</p>
+                  </div>
+                </div>
+              </div>
+              <div className={styles.slider}>
+                <Carousel cycleNavigation={true} navButtonsAlwaysVisible={true}>
+                  {dataObj.items.map((content, index) => (
+                    <div key={index}>
+                      <img src={content.imagePath} className={styles.carouselImage} />
+                    </div>
+                  ))}
+                </Carousel>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </main>
     </div>
   )
