@@ -1,9 +1,9 @@
 import Head from 'next/head'
 import styles from '../styles/Home.module.css'
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { NATIONAL_CODE } from '../constants/nationalCode';
-import { Button, ContactIcon, LikeIcon, ViewIcon } from '@closet-design-system/core-connect';
+import { Button, ContactIcon, LikeIcon, ViewIcon, Modal, TypoBody, CameraIcon } from '@closet-design-system/core-connect';
 import Carousel from "react-material-ui-carousel";
 
 export default function Home({ creatorList, creatorIntro }) {
@@ -13,6 +13,16 @@ export default function Home({ creatorList, creatorIntro }) {
   const findCountryLabel = (countryCode) => {
     const country = NATIONAL_CODE.find(item => item.value === countryCode);
     return country ? country.label : '';
+  };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const modalOpen = () => {
+    setIsModalOpen(true);
+    console.log("isModalOpen : ", isModalOpen)
+  };
+  const modalClose = () => {
+    setIsModalOpen(false);
+    console.log("isModalOpen : ", isModalOpen)
   };
 
   return (
@@ -45,7 +55,7 @@ export default function Home({ creatorList, creatorIntro }) {
                 <div>
                   {dataObj.photo && <img src={dataObj.photo} className={styles.creatorThumb} alt="Creator Thumbnail" />}
                 </div>
-                <div className={styles.introduction}>
+                <div>
                   {dataObj.introduction !== "" && dataObj.introduction.ops.length > 0 && (
                     <p>{dataObj.introduction.ops[0].insert}</p>
                   )}
@@ -60,16 +70,26 @@ export default function Home({ creatorList, creatorIntro }) {
                     <p>FOLLOW</p>
                   </Button>
                   <div className={styles.userInfo}>
-                    <ViewIcon></ViewIcon>
+                    <ViewIcon />
                     <p>{dataObj.viewCount}</p>
                   </div>
                   <div className={styles.userInfo}>
-                    <LikeIcon></LikeIcon>
+                    <LikeIcon />
                     <p>{dataObj.likeCount}</p>
                   </div>
                   <div className={styles.userInfo}>
-                    <ContactIcon></ContactIcon>
-                    <p>{dataObj.followerCount}</p>
+                    <ContactIcon />
+                    <Button onClick={modalOpen}>{dataObj.followerCount}</Button>
+                    <Modal isOpen={isModalOpen} onClose={modalClose} modalZIndex={10000}>
+                      <Modal.Header>제목</Modal.Header>
+                      <Modal.Content>
+                        <TypoBody>컨텐츠로 무엇이든 올 수 있어요</TypoBody>
+                        <CameraIcon />
+                      </Modal.Content>
+                      <Modal.Footer>
+                        <Button onClick={modalClose}>닫기</Button>
+                      </Modal.Footer>
+                    </Modal>
                   </div>
                 </div>
               </div>
