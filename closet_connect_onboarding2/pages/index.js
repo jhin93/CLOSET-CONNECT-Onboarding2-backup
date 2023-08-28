@@ -67,10 +67,7 @@ export default function Home({ creatorList, creatorIntro }) {
               <Carousel cycleNavigation={true} navButtonsAlwaysVisible={true}>
                 {dataObj.items.map((content, index) => (
                   <div key={index}>
-                    <img src={content.imagePath} />
-                    {/*{content.desc.map((description) => (*/}
-                    {/*  <li>{description}</li>*/}
-                    {/*))}*/}
+                    <img src={content.imagePath} className={styles.carouselImage} />
                   </div>
                 ))}
               </Carousel>
